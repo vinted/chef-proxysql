@@ -4,7 +4,7 @@ AllCops:
     - 'cookbooks/*/.kitchen/*'
 
 LineLength:
-  Max: 75
+  Max: 99
 
 MethodLength:
   Max: 30
