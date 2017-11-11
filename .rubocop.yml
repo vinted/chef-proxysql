@@ -1,0 +1,28 @@
+AllCops:
+  TargetRubyVersion: 2.1
+  Exclude:
+    - 'cookbooks/*/.kitchen/*'
+
+LineLength:
+  Max: 75
+
+MethodLength:
+  Max: 30
+
+Documentation:
+  Enabled: false
+
+SignalException:
+  EnforcedStyle: only_raise
+
+ClassAndModuleChildren:
+  Enabled: false
+
+Style/EmptyCaseCondition:
+  Enabled: false
+
+Layout/SpaceBeforeFirstArg:
+  Enabled: false
+
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
