@@ -1,17 +1,17 @@
 #
-# Cookbook:: chef-proxysql
+# Cookbook:: proxysql
 # Spec:: default
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.
 
 require 'spec_helper'
 
-describe 'chef-proxysql::default' do
-  context 'When all attributes are default, on an Ubuntu 16.04' do
+describe 'test-proxysql::default' do
+  context 'When all attributes are default, on an CentOS 7.2' do
     let(:chef_run) do
       # for a complete list of available platforms and versions see:
       # https://github.com/customink/fauxhai/blob/master/PLATFORMS.md
-      runner = ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04')
+      runner = ChefSpec::ServerRunner.new(platform: 'centos', version: '7.2')
       runner.converge(described_recipe)
     end
 
