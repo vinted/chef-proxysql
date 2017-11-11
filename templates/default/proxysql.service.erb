@@ -1,0 +1,12 @@
+[Unit]
+After=<%= @unit_after %>
+
+[Service]
+ExecStart=<%= @service_exec_start %>
+Restart=<%= @service_restart %>
+RestartSec=<%= @service_restart_sec %>
+User=<%= @service_user %>
+Group=<%= @service_group %>
+
+[Install]
+WantedBy=<%= @install_wanted_by %>
