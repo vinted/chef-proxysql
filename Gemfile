@@ -13,5 +13,7 @@ group :unit do
 end
 
 group :kitchen_common do
+  gem 'kitchen-docker'
+  gem 'kitchen-inspec'
   gem 'test-kitchen'
 end

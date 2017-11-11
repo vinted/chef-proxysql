@@ -3,8 +3,8 @@ settings:
   parallel: true
 
 driver:
-  name: vagrant
-  require_chef_omnibus: true
+  name: docker
+  use_sudo: false
 
 provisioner:
   name: chef_zero
@@ -17,8 +17,18 @@ verifier:
   name: inspec
 
 platforms:
-  # - name: ubuntu-16.04
-  - name: centos-7.2
+  - name: centos
+    driver_plugin: docker
+    driver:
+      image: ernestasposkus/centos7
+      run_command: /usr/lib/systemd/systemd
+      run_options: '--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'
+  # - name: ubuntu
+  #   driver_plugin: docker
+  #   driver:
+  #     image: ernestasposkus/ubuntu1604
+  #     run_command: '/lib/systemd/systemd'
+  #     run_options: '--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'
 
 suites:
   - name: default

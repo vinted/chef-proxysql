@@ -1,10 +1,8 @@
 language: ruby
+sudo: required
 
-branches:
-  only:
-    - master
-
-sudo: false
+services:
+  - docker
 
 rvm:
   - 2.3.1
@@ -15,8 +13,7 @@ cache:
   - vendor/bundle
 
 script:
-  - bundle exec rake style
-  - bundle exec rake spec
+  - bundle exec kitchen test --concurrency
 
 notifications:
   disable: true
