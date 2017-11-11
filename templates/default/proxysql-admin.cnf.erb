@@ -1,0 +1,26 @@
+# proxysql admin interface credentials.
+export PROXYSQL_USERNAME="<%= @admin_username %>"
+export PROXYSQL_PASSWORD="<%= @admin_password %>"
+export PROXYSQL_HOSTNAME="<%= @admin_hostname %>"
+export PROXYSQL_PORT="<%= @admin_port %>"
+
+# PXC admin credentials for connecting to pxc-cluster-node.
+export CLUSTER_USERNAME="<%= @cluster_username %>"
+export CLUSTER_PASSWORD="<%= @cluster_password %>"
+export CLUSTER_HOSTNAME="<%= @cluster_hostname %>"
+export CLUSTER_PORT="<%= @cluster_port %>"
+
+# proxysql monitoring user. proxysql admin script will create this user in pxc to monitor pxc-nodes.
+export MONITOR_USERNAME="<%= @monitor_username %>"
+export MONITOR_PASSWORD="<%= @monitor_password %>"
+
+# Application user to connect to pxc-node through proxysql
+export CLUSTER_APP_USERNAME="<%= @application_username %>"
+export CLUSTER_APP_PASSWORD="<%= @application_password %>"
+
+# ProxySQL read/write hostgroup
+export WRITE_HOSTGROUP_ID="<%= @write_hostgroup_id %>"
+export READ_HOSTGROUP_ID="<%= @read_hostgroup_id %>"
+
+# ProxySQL read/write configuration mode.
+export MODE="<%= @read_write_mode %>"
