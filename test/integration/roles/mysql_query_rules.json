@@ -1,0 +1,28 @@
+{
+  "name": "mysql_query_rules",
+  "override_attributes": {
+    "proxysql": {
+      "config": {
+        "mysql_query_rules": {
+          "query_rules_for_eu": [
+            {
+              "rule_id": 1,
+              "active": 1,
+              "match_pattern": "^SELECT .* FOR UPDATE$",
+              "destination_hostgroup": 0,
+              "apply": 1
+            },
+            {
+              "rule_id": 2,
+              "active": 1,
+              "match_pattern": "^SELECT",
+              "destination_hostgroup": 1,
+              "apply": 1
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+

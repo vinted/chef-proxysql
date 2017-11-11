@@ -1,0 +1,30 @@
+{
+  "name": "mysql_users",
+  "override_attributes": {
+    "proxysql": {
+      "config": {
+        "mysql_users": {
+          "user1": [
+            {
+              "username": "username",
+              "password": "password",
+              "default_hostgroup": 0,
+              "active": 1
+            }
+          ],
+          "user2": [
+            {
+              "username": "root",
+              "password": "",
+              "default_hostgroup": 0,
+              "max_connections": 1000,
+              "default_schema": "test",
+              "active": 1
+            }
+          ],
+          "user3": [ { "username": "user1" , "password": "password" , "default_hostgroup": 0 , "active": 0 } ]
+        }
+      }
+    }
+  }
+}
