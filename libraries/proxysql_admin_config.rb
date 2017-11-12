@@ -5,8 +5,6 @@ class Chef
     class ProxysqlAdminConfig < BaseService
       provides(:proxysql_admin_config)
 
-      attribute(:service_name, kind_of: String, default: 'proxysql')
-
       # ProxySQL admin interface credentials.
       attribute(:admin_username, kind_of: String, default: 'admin')
       attribute(:admin_password, kind_of: String, default: 'admin')
