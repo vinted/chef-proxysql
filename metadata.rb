@@ -9,4 +9,6 @@ source_url 'https://github.com/ernestas-poskus/chef-proxysql'
 chef_version '>= 12.1' if respond_to?(:chef_version)
 version '0.1.0'
 
+supports 'centos'
+
 depends 'poise', '~> 2.8.1'
