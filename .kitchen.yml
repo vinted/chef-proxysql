@@ -1,26 +1,46 @@
 ---
+settings:
+  parallel: true
+
 driver:
-  name: vagrant
+  name: docker
+  use_sudo: false
 
 provisioner:
   name: chef_zero
-  # You may wish to disable always updating cookbooks in CI or other testing environments.
-  # For example:
-  #   always_update_cookbooks: <%= !ENV['CI'] %>
-  always_update_cookbooks: true
+  nodes_path: 'test/integration/nodes'
+  data_bags_path: 'test/integration/data_bags'
+  environments_path: 'test/integration/environments'
+  roles_path: 'test/integration/roles'
 
 verifier:
   name: inspec
 
 platforms:
-  - name: ubuntu-16.04
-  - name: centos-7
+  - name: centos
+    driver_plugin: docker
+    driver:
+      image: ernestasposkus/centos7
+      run_command: /usr/lib/systemd/systemd
+      run_options: '--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'
+  # - name: ubuntu
+  #   driver_plugin: docker
+  #   driver:
+  #     image: ernestasposkus/ubuntu1604
+  #     run_command: '/lib/systemd/systemd'
+  #     run_options: '--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'
 
 suites:
   - name: default
     run_list:
-      - recipe[chef-proxysql::default]
-    verifier:
-      inspec_tests:
-        - test/smoke/default
-    attributes:
+      - recipe[test-proxysql::default]
+      - role[admin_variables]
+      - role[mysql_variables]
+      - role[mysql_servers]
+      - role[mysql_users]
+      - role[mysql_query_rules]
+      - role[mysql_replication_hostgroups]
+
+  - name: 2mysql
+    run_list:
+      - recipe[test-proxysql::2mysql]
