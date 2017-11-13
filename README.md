@@ -104,6 +104,28 @@ mysql_servers=(
 
 Cookbook assumes `monitor` user is created on each database server.
 
+Include this line in metadata.rb
+
+```ruby
+depends 'proxysql'
+```
+
+There are 2 ways to use this cookbook resources.
+
+1. Include default recipe and manipulate node['proxysql'] attributes.
+
+```ruby
+include_recipe 'proxysql::default'
+```
+
+2. Use resource in any recipe.
+
+```ruby
+proxysql_service '' do
+  # ...
+end
+```
+
 ## Requirements
 
  - Systemd
