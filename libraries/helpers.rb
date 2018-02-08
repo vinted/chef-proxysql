@@ -20,6 +20,8 @@ module ProxysqlHelpers
       output.puts ')'
     when String
       output.puts "\"#{obj}\""
+    when Symbol
+      output.puts "\"#{obj}\""
     when Integer || Float
       output.puts obj
     when TrueClass || FalseClass
@@ -31,4 +33,11 @@ module ProxysqlHelpers
     end
     output.string
   end
+
+  def for_instance(instance, config)
+    {
+      instance => config.is_a?(Array) ? config : [config]
+    }
+  end
+  module_function :for_instance
 end
