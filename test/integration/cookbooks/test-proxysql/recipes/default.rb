@@ -1,5 +1,10 @@
 include_recipe 'test-proxysql::setup'
-package 'mysql'
+case node['platform']
+when 'rhel', 'centos'
+  package 'mysql'
+when 'debian', 'ubuntu'
+  package 'mysql-server-5.6'
+end
 
 proxysql_service 'first' do
 end

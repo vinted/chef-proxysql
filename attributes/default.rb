@@ -1,20 +1,11 @@
-default['percona']['repository']['name'] = 'percona-release.repo'
-default['percona']['repository']['version'] = '0.1-4'
-default['percona']['repository']['url'] = 'http://www.percona.com/'\
-  'downloads/percona-release/redhat/'\
-  "#{node['percona']['repository']['version']}/"\
-  "percona-release-#{node['percona']['repository']['version']}.noarch.rpm"
+default['proxysql']['version'] = '1.4.3'
 
 default['proxysql']['user'] = 'proxysql'
 default['proxysql']['group'] = 'proxysql'
 
-default['proxysql']['version'] = '1.4.3-1.1.el7'
 default['proxysql']['config_dir'] = '/etc/proxysql'
 default['proxysql']['data_dir'] = '/var/lib/proxysql'
 
-#
-# Service
-#
 default['proxysql']['service']['flags'] = {
   'exit-on-error' => false,
   'no-monitor' => false,
@@ -25,10 +16,6 @@ default['proxysql']['service']['flags'] = {
   'reload' => false,
   'sqlite3-server' => false
 }
-
-#
-# Config
-#
 
 default['proxysql']['config']['admin_variables'] = {}
 default['proxysql']['config']['mysql_variables'] = {}

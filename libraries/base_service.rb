@@ -64,7 +64,7 @@ class Chef
 
       def platform_supported?
         platform = node['platform']
-        return if %w[redhat centos].include?(platform)
+        return if %w[redhat centos debian ubuntu].include?(platform)
         raise "Platform #{platform} is not supported"
       end
 
@@ -92,6 +92,7 @@ class Chef
         end
       end
 
+      # rubocop:disable Metrics/AbcSize
       def install_proxysql_repository
         url = node['percona']['repository']['url']
         name = node['percona']['repository']['name']
@@ -100,6 +101,27 @@ class Chef
         when 'rhel', 'centos'
           execute "rpm -Uhv #{url}" do
             creates "/etc/yum.repos.d/#{name}"
+          end
+        when 'ubuntu', 'debian'
+          basename = ::File.basename(url)
+          percona_repo_deb = Chef::Config[:file_cache_path] + "/#{basename}"
+
+          # Using execute because apt_update is available only in Chef Client 12.7.
+          execute 'apt_update_for_percona_repo' do
+            command %(apt-get update)
+            action :nothing
+          end
+
+          dpkg_package basename do
+            source percona_repo_deb
+            action :nothing
+            notifies :run, 'execute[apt_update_for_percona_repo]', :immediate
+          end
+
+          remote_file percona_repo_deb do
+            source url
+            notifies :install, "dpkg_package[#{basename}]", :immediate
+            not_if { ::File.exist?(percona_repo_deb) }
           end
         end
       end
