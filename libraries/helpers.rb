@@ -20,6 +20,8 @@ module ProxysqlHelpers
       output.puts ')'
     when String
       output.puts "\"#{obj}\""
+    when Symbol
+      output.puts "\"#{obj}\""
     when Integer || Float
       output.puts obj
     when TrueClass || FalseClass
