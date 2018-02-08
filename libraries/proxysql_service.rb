@@ -181,10 +181,11 @@ class Chef
           data_dir: service_data_dir,
           admin_variables: admin_variables,
           mysql_variables: new_resource.mysql_variables,
-          mysql_servers: make_config(new_resource.mysql_servers),
-          mysql_users: make_config(new_resource.mysql_users),
-          mysql_query_rules: make_config(new_resource.mysql_query_rules),
-          schedulers: make_config(new_resource.schedulers),
+
+          schedulers:                   make_config(new_resource.schedulers),
+          mysql_users:                  make_config(new_resource.mysql_users),
+          mysql_servers:                make_config(new_resource.mysql_servers),
+          mysql_query_rules:            make_config(new_resource.mysql_query_rules),
           mysql_replication_hostgroups: make_config(new_resource.mysql_replication_hostgroups)
         }
       end
@@ -307,7 +308,7 @@ class Chef
           raise "Provided key #{k} value #{val.class} must be of type"\
             'Chef::Node::ImmutableArray or Array'
         end
-        values.reduce(&:concat).compact.uniq
+        values.reduce(&:concat).compact
       end
 
       def install_proxysql
