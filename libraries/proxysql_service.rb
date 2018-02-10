@@ -205,6 +205,7 @@ class Chef
           'LOAD MYSQL VARIABLES TO RUNTIME',
 
           'LOAD ADMIN VARIABLES FROM DISK',
+          'LOAD ADMIN VARIABLES FROM CONFIG',
           'LOAD ADMIN VARIABLES TO RUNTIME'
         ]
       end
