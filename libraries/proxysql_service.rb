@@ -58,10 +58,21 @@ class Chef
 
       # Service
       attribute(:service_name, kind_of: String, default: 'proxysql')
-      attribute(:service_unit_after, kind_of: Array, default: %w[network.target])
-      attribute(:service_install_wanted_by, kind_of: Array, default: %w[multi-user.target])
-      attribute(:service_restart, kind_of: String, default: 'on-failure')
-      attribute(:service_restart_sec, kind_of: Integer, default: 2)
+      attribute(:service_unit_after, kind_of: Array, default: %w[network])
+      attribute(
+        :service_provider,
+        kind_of: Symbol,
+        default: lazy do
+          init_systemd = Mixlib::ShellOut.new('ps --no-headers -o comm 1')
+          init_systemd.run_command
+          init_systemd.error!
+          if init_systemd.stdout.chomp == 'systemd'
+            :systemd
+          else
+            :sysvinit
+          end
+        end
+      )
     end
   end
 
@@ -77,10 +88,6 @@ class Chef
         file config_file do
           action :delete
         end
-        systemd_service_directory(action: :delete)
-        file systemd_unit_path do
-          action :delete
-        end
       end
 
       protected
@@ -89,8 +96,7 @@ class Chef
         install_proxysql
         create_directories(service_data_dir)
         install_config
-        systemd_service_directory
-        install_systemd_service
+        install_service
 
         service constructed_service_name do
           supports(
@@ -212,17 +218,20 @@ class Chef
 
       def install_config
         statements = proxysql_statements.map { |statement| "#{statement};" }
-
         cmd = %(echo "#{statements.join(' ')}" | #{mysql_cmd})
-        unit_path = systemd_unit_path
+        service = if new_resource.service_provider == :systemd
+                    "systemctl is-active #{constructed_service_name}"
+                  else
+                    "service status #{constructed_service_name}"
+                  end
+        variables = config_variables
 
         execute 'load-config' do
           command cmd
           action :nothing
-          only_if { ::File.exist?(unit_path) }
+          only_if service
         end
 
-        variables = config_variables
         template config_file do
           source 'proxysql.cnf.erb'
           variables variables
@@ -252,44 +261,14 @@ class Chef
         config.flatten.join(' ')
       end
 
-      def systemd_unit_path
-        "/etc/systemd/system/#{constructed_service_name}.service"
-      end
-
-      def systemd_service_directory(action: :create)
-        directory "#{systemd_unit_path}.d" do
-          owner 'root'
-          group 'root'
-          mode '0750'
-          action action
-        end
-      end
-
-      def install_systemd_service
-        execute 'systemctl-daemon-reload' do
-          command '/bin/systemctl daemon-reload'
-          action :nothing
-        end
-
-        variables = {
-          unit_after: Array(new_resource.service_unit_after).join(' '),
-          service_exec_start: "#{new_resource.bin} #{service_args}",
-          service_restart: new_resource.service_restart,
-          service_restart_sec: new_resource.service_restart_sec,
-          service_user: new_resource.user,
-          service_group: new_resource.group,
-          install_wanted_by: Array(new_resource.service_install_wanted_by).join(' ')
-        }
-
-        template systemd_unit_path do
-          source 'proxysql.service.erb'
-          variables variables
-          owner 'root'
-          group 'root'
-          mode '0644'
-          notifies :run, 'execute[systemctl-daemon-reload]', :immediately
-          helpers(ProxysqlHelpers)
-          cookbook 'proxysql'
+      def install_service
+        command = "#{new_resource.bin} #{service_args}"
+        systemd_after_target = Array(new_resource.service_unit_after).join(' ')
+        poise_service constructed_service_name do
+          provider new_resource.service_provider
+          command command
+          user new_resource.user
+          options :systemd, after_target: systemd_after_target
         end
       end
 
