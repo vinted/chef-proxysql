@@ -3,7 +3,9 @@ default['percona']['repository']['version'] = '0.1-4'
 
 case node['platform']
 when 'rhel', 'centos'
-  default['proxysql']['package_version'] = "#{node['proxysql']['version']}-1.1.el7"
+  platform_version = node['platform_version'].to_i
+  version = node['proxysql']['version']
+  default['proxysql']['package_version'] = "#{version}-1.1.el#{platform_version}"
 
   default['percona']['repository']['url'] = 'http://www.percona.com/'\
     'downloads/percona-release/redhat/'\
