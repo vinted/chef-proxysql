@@ -9,7 +9,7 @@ class Chef
       attribute(
         :version,
         kind_of: String,
-        default: lazy { node['proxysql']['version'] }
+        default: lazy { node['proxysql']['package_version'] }
       )
       attribute(:bin, kind_of: String, default: '/usr/bin/proxysql')
       attribute(:admin_socket, kind_of: [String, NilClass], default: nil)
@@ -205,6 +205,7 @@ class Chef
           'LOAD MYSQL VARIABLES TO RUNTIME',
 
           'LOAD ADMIN VARIABLES FROM DISK',
+          'LOAD ADMIN VARIABLES FROM CONFIG',
           'LOAD ADMIN VARIABLES TO RUNTIME'
         ]
       end
