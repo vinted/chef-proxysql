@@ -12,11 +12,6 @@ describe directory('/var/lib/proxysql/proxysql-first') do
   it { should exist }
 end
 
-describe file('/etc/systemd/system/proxysql-first.service') do
-  it { should exist }
-  its('owner') { should eq 'root' }
-end
-
 describe package('proxysql') do
   it { should be_installed }
 end

@@ -5,19 +5,8 @@ pass = 'suchsecret'
 first_port = 3300
 second_port = 3301
 
-execute 'create_user_for_first' do
-  # rubocop:disable Metrics/LineLength
-  command %(echo "GRANT ALL PRIVILEGES ON *.* TO 'monitor'@'%' IDENTIFIED BY 'monitor';" | mysql -u root -p#{pass} -h 127.0.0.1 -P #{first_port})
-  action :nothing
-end
-
-execute 'create_user_for_second' do
-  # rubocop:disable Metrics/LineLength
-  command %(echo "GRANT ALL PRIVILEGES ON *.* TO 'monitor'@'%' IDENTIFIED BY 'monitor';" | mysql -u root -p#{pass} -h 127.0.0.1 -P #{second_port})
-  action :nothing
-end
-
 mysql_service 'first' do
+  bind_address '0.0.0.0'
   port first_port
   initial_root_password pass
   version '5.6'
@@ -25,10 +14,25 @@ mysql_service 'first' do
 end
 
 mysql_service 'second' do
+  bind_address '0.0.0.0'
   port second_port
   initial_root_password pass
   version '5.6'
   action %i[create start]
+end
+
+sleep 20
+
+execute 'create_user_for_first' do
+  # rubocop:disable Metrics/LineLength
+  command %(echo "GRANT ALL PRIVILEGES ON *.* TO 'monitor'@'%' IDENTIFIED BY 'monitor';" | mysql -u root -p#{pass} -h 127.0.0.1 -P #{first_port})
+  action :run
+end
+
+execute 'create_user_for_second' do
+  # rubocop:disable Metrics/LineLength
+  command %(echo "GRANT ALL PRIVILEGES ON *.* TO 'monitor'@'%' IDENTIFIED BY 'monitor';" | mysql -u root -p#{pass} -h 127.0.0.1 -P #{second_port})
+  action :run
 end
 
 servers = {
@@ -73,6 +77,4 @@ proxysql_service '2balance' do
   mysql_servers servers
   mysql_users users
   mysql_variables variables
-  notifies :run, 'execute[create_user_for_first]', :immediately
-  notifies :run, 'execute[create_user_for_second]', :immediately
 end
