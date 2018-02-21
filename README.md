@@ -185,7 +185,7 @@ end
 ## Attributes
 
 ```ruby
-default['proxysql']['version'] = '1.4.4'
+default['proxysql']['version'] = '1.4.5'
 
 default['proxysql']['user'] = 'proxysql'
 default['proxysql']['group'] = 'proxysql'
