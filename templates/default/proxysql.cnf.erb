@@ -18,17 +18,17 @@ mysql_servers=<%= to_cnf(@mysql_servers) %>
 
 <% if !@mysql_users.empty? %>
 # Defines all the MySQL users
-mysql_users=<%= to_cnf(@mysql_users) %>
+mysql_users: <%= to_cnf(@mysql_users) %>
 <% end %>
 
 <% if !@mysql_query_rules.empty? %>
 # Defines MySQL Query Rules
-mysql_query_rules=<%= to_cnf(@mysql_query_rules) %>
+mysql_query_rules:<%= to_cnf(@mysql_query_rules) %>
 <% end %>
 
 <% if !@schedulers.empty? %>
 # Defines schedulers
-schedulers=<%= to_cnf(@schedulers) %>
+scheduler=<%= to_cnf(@schedulers) %>
 <% end %>
 
 <% if !@mysql_replication_hostgroups.empty? %>
