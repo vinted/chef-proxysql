@@ -6,7 +6,8 @@ when 'debian', 'ubuntu'
   package 'mysql-server-5.6'
 end
 
-proxysql_service 'first' do
+proxysql_service 'first_service' do
+  service_name "proxysql-first"
 end
 
 proxysql_admin_config 'first' do
