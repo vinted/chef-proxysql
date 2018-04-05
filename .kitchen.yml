@@ -47,7 +47,13 @@ suites:
       - role[mysql_users]
       - role[mysql_query_rules]
       - role[mysql_replication_hostgroups]
+    attributes:
+      proxysql:
+        lock_version: false
 
   - name: 2mysql
     run_list:
       - recipe[test-proxysql::2mysql]
+    attributes:
+      proxysql:
+        lock_version: false
