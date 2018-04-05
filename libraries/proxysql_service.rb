@@ -11,6 +11,11 @@ class Chef
         kind_of: String,
         default: lazy { node['proxysql']['package_version'] }
       )
+      attribute(
+        :lock_version,
+        kind_of: [TrueClass, FalseClass],
+        default: lazy { node['proxysql']['lock_version'] }
+      )
       attribute(:bin, kind_of: String, default: '/usr/bin/proxysql')
       attribute(:admin_socket, kind_of: [String, NilClass], default: nil)
       attribute(
@@ -293,7 +298,7 @@ class Chef
 
       def install_proxysql
         package 'proxysql' do
-          version new_resource.version
+          version new_resource.version if new_resource.lock_version
         end
 
         # Remove package defaults
