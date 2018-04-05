@@ -9,7 +9,14 @@ class Chef
       attribute(
         :version,
         kind_of: String,
-        default: lazy { node['proxysql']['package_version'] }
+        default: lazy { node['proxysql']['version'] }
+      )
+      # Package release
+      # 1.1.xenial OR 1.1.el7 OR 1.1.el6
+      attribute(
+        :package_release,
+        kind_of: String,
+        default: lazy { node['proxysql']['package_release'] }
       )
       attribute(
         :lock_version,
@@ -296,9 +303,13 @@ class Chef
         values.reduce(&:concat).compact
       end
 
+      def package_version
+        [new_resource.version, new_resource.package_release].join('-')
+      end
+
       def install_proxysql
         package 'proxysql' do
-          version new_resource.version if new_resource.lock_version
+          version package_version if new_resource.lock_version
         end
 
         # Remove package defaults
