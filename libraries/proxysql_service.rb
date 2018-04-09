@@ -115,10 +115,7 @@ class Chef
       private
 
       def constructed_service_name
-        [
-          new_resource.service_name,
-          new_resource.name
-        ].join('-')
+        new_resource.service_name
       end
 
       def config_file
