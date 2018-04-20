@@ -123,7 +123,7 @@ include_recipe 'proxysql::default'
 2. Use resource in any recipe.
 
 ```ruby
-proxysql_service '' do
+proxysql_service 'default' do
   # ...
 end
 ```
@@ -136,7 +136,8 @@ end
 ## Resources
 
 ```ruby
-proxysql_service 'eu1' do
+proxysql_service 'any name' do
+  # service_name 'proxysql-eu1'
   # user String
   # group String
   # data_dir String
@@ -268,6 +269,7 @@ variables = {
 }
 
 proxysql_service '2balance' do
+  service_name 'proxysql-2balance'
   admin_variables admin_variables
   mysql_servers servers
   mysql_users users

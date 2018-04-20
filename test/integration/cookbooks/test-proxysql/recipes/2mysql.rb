@@ -77,4 +77,5 @@ proxysql_service '2balance' do
   mysql_servers servers
   mysql_users users
   mysql_variables variables
+  service_name 'proxysql-2balance'
 end
