@@ -3,9 +3,7 @@ default['percona']['repository']['version'] = '0.1-4'
 
 case node['platform']
 when 'rhel', 'centos'
-  platform_version = node['platform_version'].to_i
-  version = node['proxysql']['version']
-  default['proxysql']['package_version'] = "#{version}-1.1.el#{platform_version}"
+  default['proxysql']['package_release'] = "1.1.el#{node['platform_version'].to_i}"
 
   default['percona']['repository']['url'] = 'http://www.percona.com/'\
     'downloads/percona-release/redhat/'\
@@ -17,7 +15,7 @@ when 'debian', 'ubuntu'
   lsb_release.error!
   lsb_release = lsb_release.stdout.chomp
 
-  default['proxysql']['package_version'] = "#{node['proxysql']['version']}-1.1.#{lsb_release}"
+  default['proxysql']['package_release'] = "1.1.#{lsb_release}"
 
   default['percona']['repository']['url'] =
     'http://repo.percona.com/apt/percona-release_'\
