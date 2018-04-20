@@ -4,7 +4,7 @@ require 'chef/provider'
 
 class Chef
   class Resource
-    class BaseService < Chef::Resource
+    class ProxysqlBaseService < Chef::Resource
       include Poise(container: true)
 
       actions(:install)
@@ -33,7 +33,7 @@ class Chef
   end
 
   class Provider
-    class BaseService < Chef::Provider
+    class ProxysqlBaseService < Chef::Provider
       include Poise
 
       def action_install

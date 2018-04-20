@@ -2,7 +2,7 @@ require_relative 'base_service'
 
 class Chef
   class Resource
-    class ProxysqlAdminConfig < BaseService
+    class ProxysqlAdminConfig < ProxysqlBaseService
       provides(:proxysql_admin_config)
 
       # ProxySQL admin interface credentials.
@@ -36,7 +36,7 @@ class Chef
   end
 
   class Provider
-    class ProxysqlAdminConfig < BaseService
+    class ProxysqlAdminConfig < ProxysqlBaseService
       provides(:proxysql_admin_config)
 
       def action_delete

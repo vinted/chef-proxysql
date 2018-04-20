@@ -2,7 +2,7 @@ require_relative 'base_service'
 
 class Chef
   class Resource
-    class ProxysqlService < BaseService
+    class ProxysqlService < ProxysqlBaseService
       provides(:proxysql_service)
 
       # ProxySQL
@@ -90,7 +90,7 @@ class Chef
 
   class Provider
     # rubocop:disable Metrics/ClassLength
-    class ProxysqlService < BaseService
+    class ProxysqlService < ProxysqlBaseService
       provides(:proxysql_service)
 
       def action_delete
