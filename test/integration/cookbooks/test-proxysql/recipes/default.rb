@@ -7,6 +7,7 @@ when 'debian', 'ubuntu'
 end
 
 proxysql_service 'first' do
+  service_name 'proxysql-first'
 end
 
 proxysql_admin_config 'first' do
