@@ -188,7 +188,7 @@ class Chef
                        "--host #{host} --port #{port}"
                      end
         user, pass = admin_credentials.split(':')
-        "mysql --user=#{user} --password=#{pass} #{connection}"
+        %(mysql --user="#{user}" --password="#{pass}" #{connection})
       end
 
       def config_variables
