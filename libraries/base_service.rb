@@ -82,13 +82,14 @@ class Chef
 
       def create_user
         group new_resource.group do
-          action :create
+          action :nothing
         end
 
         user new_resource.user do
           group new_resource.group
           shell '/bin/false'
           action :create
+          notifies :create, "group[#{new_resource.group}]", :before
         end
       end
 
