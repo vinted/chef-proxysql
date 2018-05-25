@@ -182,7 +182,8 @@ class Chef
 
       def mysql_cmd
         connection = if admin_mysql_ifaces =~ /\.sock/
-                       "--socket #{admin_mysql_ifaces}"
+                       iface = admin_mysql_ifaces.split(";").select {|inf| inf =~ /\.sock/}
+                       "--socket #{iface.first}"
                      else
                        host, port = admin_mysql_ifaces.split(':')
                        "--host #{host} --port #{port}"
