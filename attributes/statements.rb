@@ -15,3 +15,13 @@ default['proxysql']['pre_statements'] = [
   'LOAD ADMIN VARIABLES FROM CONFIG',
   'LOAD ADMIN VARIABLES TO RUNTIME'
 ]
+
+default['proxysql']['post_statements'] = [
+  'SAVE MYSQL USERS TO DISK',
+
+  'SAVE MYSQL SERVERS TO DISK',
+
+  'SAVE MYSQL VARIABLES TO DISK',
+
+  'SAVE ADMIN VARIABLES TO DISK'
+]
