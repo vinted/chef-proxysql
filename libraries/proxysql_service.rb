@@ -104,7 +104,7 @@ class Chef
       provides(:proxysql_service)
 
       def action_delete
-        service constructed_service_name do
+        service new_resource.service_name do
           action %i[stop disable]
         end
         file config_file do
@@ -120,7 +120,7 @@ class Chef
         install_config
         install_service
 
-        service constructed_service_name do
+        service new_resource.service_name do
           supports(
             status: true,
             restart: true
@@ -131,21 +131,17 @@ class Chef
 
       private
 
-      def constructed_service_name
-        new_resource.service_name
-      end
-
       def config_file
         ::File.join(
           [
             new_resource.config_dir,
-            "#{constructed_service_name}.cnf"
+            "#{new_resource.service_name}.cnf"
           ]
         )
       end
 
       def service_data_dir
-        ::File.join([new_resource.data_dir, constructed_service_name])
+        ::File.join([new_resource.data_dir, new_resource.service_name])
       end
 
       # rubocop:disable Metrics/AbcSize
@@ -222,9 +218,9 @@ class Chef
         pre_cmd = %(echo "#{pre_st.join(' ')}" | #{mysql_cmd})
         post_cmd = %(echo "#{post_st.join(' ')}" | #{mysql_cmd})
         service = if new_resource.service_provider == :systemd
-                    "systemctl is-active #{constructed_service_name}"
+                    "systemctl is-active #{new_resource.service_name}"
                   else
-                    "service status #{constructed_service_name}"
+                    "service status #{new_resource.service_name}"
                   end
         variables = config_variables
 
@@ -264,7 +260,7 @@ class Chef
       def install_service
         command = "#{new_resource.bin} #{service_args}"
         systemd_after_target = Array(new_resource.service_unit_after).join(' ')
-        poise_service constructed_service_name do
+        poise_service new_resource.service_name do
           provider new_resource.service_provider
           command command
           user new_resource.user
