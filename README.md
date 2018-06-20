@@ -32,6 +32,8 @@ LOAD ADMIN VARIABLES FROM DISK
 LOAD ADMIN VARIABLES TO RUNTIME
 ```
 
+One can change statements in this attribute `node['proxysql']['pre_statements']`.
+
 ## Design
 
 There are 5 special `proxysql_service` resource attributes.
