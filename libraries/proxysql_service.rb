@@ -182,7 +182,7 @@ class Chef
 
       def mysql_cmd
         connection = if admin_mysql_ifaces =~ /\.sock/
-                       iface = admin_mysql_ifaces.split(";").select {|inf| inf =~ /\.sock/}
+                       iface = admin_mysql_ifaces.split(';').select { |inf| inf =~ /\.sock/ }
                        "--socket #{iface.first}"
                      else
                        host, port = admin_mysql_ifaces.split(':')
@@ -265,9 +265,7 @@ class Chef
           "--config #{config_file}",
           "--data_dir #{service_data_dir}"
         ]
-        if new_resource.admin_socket
-          config << "--admin-socket #{new_resource.admin_socket}"
-        end
+        config << "--admin-socket #{new_resource.admin_socket}" if new_resource.admin_socket
         config.flatten.join(' ')
       end
 
@@ -311,11 +309,17 @@ class Chef
           version v if new_resource.lock_version
         end
 
+        service 'proxysql' do
+          action %i[stop disable]
+          only_if { ::File.exist?('/lib/systemd/system/proxysql.service') }
+        end
+
         # Remove package defaults
         %w[
           /etc/proxysql.cnf
           /etc/proxysql-admin.cnf
           /etc/init.d/proxysql
+          /lib/systemd/system/proxysql.service
         ].each do |f|
           file f do
             action :delete
