@@ -23,6 +23,11 @@ class Chef
         kind_of: [TrueClass, FalseClass],
         default: lazy { node['proxysql']['lock_version'] }
       )
+      attribute(
+        :pre_statements,
+        kind_of: Array,
+        default: lazy { node['proxysql']['pre_statements'] }
+      )
       attribute(:bin, kind_of: String, default: '/usr/bin/proxysql')
       attribute(:admin_socket, kind_of: [String, NilClass], default: nil)
       attribute(
@@ -206,29 +211,9 @@ class Chef
         }
       end
 
-      def proxysql_statements
-        [
-          'LOAD MYSQL USERS FROM CONFIG',
-          'LOAD MYSQL USERS TO RUNTIME',
-
-          'LOAD MYSQL SERVERS FROM CONFIG',
-          'LOAD MYSQL SERVERS TO RUNTIME',
-
-          'LOAD MYSQL QUERY RULES FROM CONFIG',
-          'LOAD MYSQL QUERY RULES TO RUNTIME',
-
-          'LOAD MYSQL VARIABLES FROM CONFIG',
-          'LOAD MYSQL VARIABLES TO RUNTIME',
-
-          'LOAD ADMIN VARIABLES FROM DISK',
-          'LOAD ADMIN VARIABLES FROM CONFIG',
-          'LOAD ADMIN VARIABLES TO RUNTIME'
-        ]
-      end
-
       def install_config
-        statements = proxysql_statements.map { |statement| "#{statement};" }
-        cmd = %(echo "#{statements.join(' ')}" | #{mysql_cmd})
+        pre_st = new_resource.pre_statements.map { |st| "#{st};" }
+        cmd = %(echo "#{pre_st.join(' ')}" | #{mysql_cmd})
         service = if new_resource.service_provider == :systemd
                     "systemctl is-active #{constructed_service_name}"
                   else
