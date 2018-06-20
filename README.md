@@ -18,6 +18,12 @@ Instances are configured through node['proxysql'] attributes and/or
 Each ProxySQL is automatically managed by Chef, on disk configuration
 changes are propagated to instance admin and are loaded to runtime.
 Cookbook propagates these SQL statements to load configuration.
+There are two types of statements propagated pre and post.
+ - `pre` statements load everything from configuration
+ - `post` statements saves configuration to disk if `pre` statements
+   propagation was successful
+
+> PRE
 
 ```sql
 LOAD MYSQL USERS FROM CONFIG
@@ -33,6 +39,17 @@ LOAD ADMIN VARIABLES TO RUNTIME
 ```
 
 One can change statements in this attribute `node['proxysql']['pre_statements']`.
+
+> POST
+
+```sql
+SAVE MYSQL USERS TO DISK
+SAVE MYSQL SERVERS TO DISK
+SAVE MYSQL VARIABLES TO DISK
+SAVE ADMIN VARIABLES TO DISK
+```
+
+One can change statements in this attribute `node['proxysql']['post_statements']`.
 
 ## Design
 

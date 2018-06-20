@@ -28,6 +28,11 @@ class Chef
         kind_of: Array,
         default: lazy { node['proxysql']['pre_statements'] }
       )
+      attribute(
+        :post_statements,
+        kind_of: Array,
+        default: lazy { node['proxysql']['post_statements'] }
+      )
       attribute(:bin, kind_of: String, default: '/usr/bin/proxysql')
       attribute(:admin_socket, kind_of: [String, NilClass], default: nil)
       attribute(
@@ -213,7 +218,9 @@ class Chef
 
       def install_config
         pre_st = new_resource.pre_statements.map { |st| "#{st};" }
-        cmd = %(echo "#{pre_st.join(' ')}" | #{mysql_cmd})
+        post_st = new_resource.post_statements.map { |st| "#{st};" }
+        pre_cmd = %(echo "#{pre_st.join(' ')}" | #{mysql_cmd})
+        post_cmd = %(echo "#{post_st.join(' ')}" | #{mysql_cmd})
         service = if new_resource.service_provider == :systemd
                     "systemctl is-active #{constructed_service_name}"
                   else
@@ -222,7 +229,7 @@ class Chef
         variables = config_variables
 
         execute 'load-config' do
-          command cmd
+          command "#{pre_cmd} && #{post_cmd}"
           action :nothing
           only_if service
         end
