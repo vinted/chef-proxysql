@@ -80,21 +80,11 @@ class Chef
 
       # Service
       attribute(:service_name, kind_of: String, default: 'proxysql')
-      attribute(:service_unit_after, kind_of: Array, default: %w[network])
-      attribute(
-        :service_provider,
-        kind_of: Symbol,
-        default: lazy do
-          init_systemd = Mixlib::ShellOut.new('ps --no-headers -o comm 1')
-          init_systemd.run_command
-          init_systemd.error!
-          if init_systemd.stdout.chomp == 'systemd'
-            :systemd
-          else
-            :sysvinit
-          end
-        end
-      )
+      attribute(:service_unit_after, kind_of: Array, default: %w[network.target])
+      attribute(:service_limit_core, kind_of: Integer, default: 1_073_741_824)
+      attribute(:service_limit_nofile, kind_of: Integer, default: 102_400)
+      attribute(:service_timeout_sec, kind_of: Integer, default: 5)
+      attribute(:service_restart, kind_of: String, default: 'on-failure')
     end
   end
 
@@ -217,17 +207,12 @@ class Chef
         post_st = new_resource.post_statements.map { |st| "#{st};" }
         pre_cmd = %(echo "#{pre_st.join(' ')}" | #{mysql_cmd})
         post_cmd = %(echo "#{post_st.join(' ')}" | #{mysql_cmd})
-        service = if new_resource.service_provider == :systemd
-                    "systemctl is-active #{new_resource.service_name}"
-                  else
-                    "service status #{new_resource.service_name}"
-                  end
         variables = config_variables
 
         execute 'load-config' do
           command "#{pre_cmd} && #{post_cmd}"
           action :nothing
-          only_if service
+          only_if "systemctl is-active #{new_resource.service_name}"
         end
 
         template config_file do
@@ -258,13 +243,27 @@ class Chef
       end
 
       def install_service
-        command = "#{new_resource.bin} #{service_args}"
-        systemd_after_target = Array(new_resource.service_unit_after).join(' ')
-        poise_service new_resource.service_name do
-          provider new_resource.service_provider
-          command command
-          user new_resource.user
-          options :systemd, after_target: systemd_after_target
+        exec_start = "#{new_resource.bin} #{service_args}"
+        systemd_service new_resource.service_name do
+          unit do
+            description 'Chef managed ProxySQL service'
+            after Array(new_resource.service_unit_after).join(' ')
+          end
+
+          install do
+            wanted_by 'multi-user.target'
+          end
+
+          service do
+            type 'simple'
+            exec_start exec_start
+            restart new_resource.service_restart
+            timeout_sec new_resource.service_timeout_sec
+            user new_resource.user
+            group new_resource.group
+            limit_core new_resource.service_limit_core
+            limit_nofile new_resource.service_limit_nofile
+          end
         end
       end
 

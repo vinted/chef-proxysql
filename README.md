@@ -156,12 +156,16 @@ end
 
 ```ruby
 proxysql_service 'any name' do
-  # service_name 'proxysql-eu1'
   # user String
   # group String
   # data_dir String
   # config_dir String
+
   # version String
+  # package_release String
+  # lock_version TrueClass, FalseClass
+  # pre_statements Array
+  # post_statements Array
   # bin String
   # admin_socket [String, NilClass]
   # flags Hash
@@ -172,11 +176,13 @@ proxysql_service 'any name' do
   # mysql_query_rules Hash
   # schedulers Hash
   # mysql_replication_hostgroups Hash
+
   # service_name String
   # service_unit_after Array
-  # service_install_wanted_by Array
+  # service_limit_core Integer
+  # service_limit_nofile Integer
+  # service_timeout_sec Integer
   # service_restart String
-  # service_restart_sec Integer
 end
 ```
 
