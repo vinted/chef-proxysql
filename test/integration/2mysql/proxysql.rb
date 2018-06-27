@@ -3,13 +3,6 @@
 # The Inspec reference, with examples and extensive documentation, can be
 # found at http://inspec.io/docs/reference/resources/
 
-# ProxySQL
-describe service('proxysql-2balance') do
-  it { should be_installed }
-  it { should be_enabled }
-  it { should be_running }
-end
-
 # ProxySQL admin
 describe port(6033) do
   it { should be_listening }

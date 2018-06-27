@@ -63,7 +63,7 @@ users = {
 }
 
 admin_variables = {
-  admin_credentials: 'admin:admin',
+  admin_credentials: 'admin:admin;cluster1:otherpass',
   'mysql_ifaces' => '127.0.0.1:6032'
 }
 
