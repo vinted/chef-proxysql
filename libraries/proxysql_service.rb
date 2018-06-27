@@ -77,6 +77,11 @@ class Chef
         kind_of: Hash,
         default: lazy { node['proxysql']['config']['mysql_replication_hostgroups'] }
       )
+      attribute(
+        :proxysql_servers,
+        kind_of: Hash,
+        default: lazy { node['proxysql']['config']['proxysql_servers'] }
+      )
 
       # Service
       attribute(:service_name, kind_of: String, default: 'proxysql')
@@ -198,7 +203,8 @@ class Chef
           mysql_users:                  make_config(new_resource.mysql_users),
           mysql_servers:                make_config(new_resource.mysql_servers),
           mysql_query_rules:            make_config(new_resource.mysql_query_rules),
-          mysql_replication_hostgroups: make_config(new_resource.mysql_replication_hostgroups)
+          mysql_replication_hostgroups: make_config(new_resource.mysql_replication_hostgroups),
+          proxysql_servers:             make_config(new_resource.proxysql_servers)
         }
       end
 

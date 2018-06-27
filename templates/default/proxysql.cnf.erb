@@ -35,3 +35,8 @@ scheduler=<%= to_cnf(@schedulers) %>
 # Defines mysql replication hostgroups
 mysql_replication_hostgroups=<%= to_cnf(@mysql_replication_hostgroups) %>
 <% end %>
+
+<% if !@proxysql_servers.empty? %>
+# Defines all the ProxySQL servers
+proxysql_servers=<%= to_cnf(@proxysql_servers) %>
+<% end %>

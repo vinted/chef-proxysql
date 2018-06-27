@@ -35,3 +35,4 @@ default['proxysql']['config']['mysql_users'] = {}
 default['proxysql']['config']['mysql_query_rules'] = {}
 default['proxysql']['config']['schedulers'] = {}
 default['proxysql']['config']['mysql_replication_hostgroups'] = {}
+default['proxysql']['config']['proxysql_servers'] = {}
