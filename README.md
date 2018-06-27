@@ -61,6 +61,7 @@ There are 5 special `proxysql_service` resource attributes.
 # mysql_query_rules Hash
 # schedulers Hash
 # mysql_replication_hostgroups Hash
+# proxysql_servers Hash
 ```
 
 Each attribute must be of type Hash (validated) and
@@ -176,6 +177,7 @@ proxysql_service 'any name' do
   # mysql_query_rules Hash
   # schedulers Hash
   # mysql_replication_hostgroups Hash
+  # proxysql_servers Hash
 
   # service_name String
   # service_unit_after Array
@@ -247,6 +249,7 @@ default['proxysql']['config']['mysql_users'] = {}
 default['proxysql']['config']['mysql_query_rules'] = {}
 default['proxysql']['config']['schedulers'] = {}
 default['proxysql']['config']['mysql_replication_hostgroups'] = {}
+default['proxysql']['config']['proxysql_servers'] = {}
 ```
 
 ## Examples
