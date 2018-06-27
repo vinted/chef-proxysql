@@ -174,7 +174,9 @@ class Chef
       end
 
       def admin_credentials
-        admin_variables[:admin_credentials] || admin_variables['admin_credentials']
+        (admin_variables[:admin_credentials] || admin_variables['admin_credentials'])
+          .split(';')
+          .first
       end
 
       def admin_mysql_ifaces
