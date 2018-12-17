@@ -1,13 +1,13 @@
 name 'proxysql'
-maintainer 'Ernestas Poskus'
-maintainer_email 'ernestas.poskus@gmail.com'
+maintainer 'Vinted SRE'
+maintainer_email 'sre@vinted.com'
 license 'MIT'
 description 'Installs/Configures ProxySQL'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-issues_url 'https://github.com/ernestas-poskus/chef-proxysql/issues'
-source_url 'https://github.com/ernestas-poskus/chef-proxysql'
+issues_url 'https://github.com/vinted/chef-proxysql/issues'
+source_url 'https://github.com/vinted/chef-proxysql'
 chef_version '>= 12.1' if respond_to?(:chef_version)
-version '3.3.0'
+version '3.4.0'
 
 supports 'redhat'
 supports 'centos'
