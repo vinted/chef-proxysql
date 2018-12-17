@@ -5,7 +5,7 @@ for MySQL and forks (like Percona Server and MariaDB).
 
 > Note: due to rapid ProxySQL development, locked ProxySQL version may not be available, therefore one might need to bump version `node['proxysql']['version']`.
 
-[![Build Status](https://travis-ci.org/ernestas-poskus/chef-proxysql.svg?branch=master)](https://travis-ci.org/ernestas-poskus/chef-proxysql)
+[![Build Status](https://travis-ci.org/vinted/chef-proxysql.svg?branch=master)](https://travis-ci.org/vinted/chef-proxysql)
 [![Cookbook Version](https://img.shields.io/cookbook/v/proxysql.svg)](https://supermarket.chef.io/cookbooks/proxysql)
 
 Cookbook configures any number of ProxySQL instances, each instance has
@@ -309,7 +309,7 @@ end
 
 MIT License
 
-Copyright (c) 2017 Ernestas Poskus
+Copyright (c) 2018 Vinted
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -328,9 +328,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-Author Information
-------------------
-
- - Blog: [http://out13.com/](http://out13.com/)
- - Twitter: @ernestas_poskus

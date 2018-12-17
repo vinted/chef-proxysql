@@ -1,11 +1,11 @@
 name 'test-proxysql'
-maintainer 'Ernestas Poskus'
-maintainer_email 'ernestas.poskus@gmail.com'
+maintainer 'Vinted SRE'
+maintainer_email 'sre@vinted.com'
 license 'MIT'
 description 'Tests proxysql'
 chef_version '>= 12.1' if respond_to?(:chef_version)
-issues_url 'https://github.com/ernestas-poskus/chef-proxysql/issues'
-source_url 'https://github.com/ernestas-poskus/chef-proxysql'
+issues_url 'https://github.com/vinted/chef-proxysql/issues'
+source_url 'https://github.com/vinted/chef-proxysql'
 version '0.1.0'
 
 depends 'proxysql'
