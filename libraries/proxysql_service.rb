@@ -184,11 +184,13 @@ class Chef
       end
 
       def mysql_cmd
-        connection = if admin_mysql_ifaces =~ /\.sock/
-                       iface = admin_mysql_ifaces.split(';').select { |inf| inf =~ /\.sock/ }
-                       "--socket #{iface.first}"
+        admin_ifaces = admin_mysql_ifaces.split(';').map(&:strip)
+        socket_iface = admin_ifaces.select { |i| i =~ /\.sock/ }.first
+
+        connection = if socket_iface
+                       "--socket #{socket_iface}"
                      else
-                       host, port = admin_mysql_ifaces.split(':')
+                       host, port = admin_ifaces.first.split(':')
                        "--host #{host} --port #{port}"
                      end
         user, pass = admin_credentials.split(':')

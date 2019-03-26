@@ -3,8 +3,6 @@
 ProxySQL is a high performance, high availability, protocol aware proxy
 for MySQL and forks (like Percona Server and MariaDB).
 
-> Note: due to rapid ProxySQL development, locked ProxySQL version may not be available, therefore one might need to bump version `node['proxysql']['version']`.
-
 [![Build Status](https://travis-ci.org/vinted/chef-proxysql.svg?branch=master)](https://travis-ci.org/vinted/chef-proxysql)
 [![Cookbook Version](https://img.shields.io/cookbook/v/proxysql.svg)](https://supermarket.chef.io/cookbooks/proxysql)
 

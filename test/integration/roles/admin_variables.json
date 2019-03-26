@@ -5,7 +5,7 @@
       "config": {
         "admin_variables": {
           "admin_credentials": "admin:admin",
-          "mysql_ifaces": "127.0.0.1:6033"
+          "mysql_ifaces": "127.0.0.1:6033;127.0.0.1:29029;127.0.0.1:39099;"
         }
       }
     }
