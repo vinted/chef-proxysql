@@ -7,7 +7,7 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 issues_url 'https://github.com/vinted/chef-proxysql/issues'
 source_url 'https://github.com/vinted/chef-proxysql'
 chef_version '>= 12.1' if respond_to?(:chef_version)
-version '4.0.0'
+version '4.1.0'
 
 supports 'redhat'
 supports 'centos'
