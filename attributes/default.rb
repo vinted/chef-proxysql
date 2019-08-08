@@ -1,4 +1,4 @@
-default['proxysql']['version'] = '1.4.13'
+default['proxysql']['version'] = '1.4.15'
 
 # Meant for easier contributing to this cookbook
 default['proxysql']['lock_version'] = true
