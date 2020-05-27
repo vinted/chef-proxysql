@@ -3,7 +3,7 @@ source 'https://supermarket.chef.io'
 
 metadata
 
-cookbook 'poise', '~> 2.8.1'
+cookbook 'poise', '~> 2.8.2'
 cookbook 'systemd', '~> 3.2.3'
 
 group 'test' do
