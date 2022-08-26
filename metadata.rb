@@ -4,15 +4,15 @@ maintainer_email 'sre@vinted.com'
 license 'MIT'
 description 'Installs/Configures ProxySQL'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-issues_url 'https://github.com/vinted/chef-proxysql/issues'
-source_url 'https://github.com/vinted/chef-proxysql'
 chef_version '>= 12.1' if respond_to?(:chef_version)
-version '4.2.0'
-
-supports 'redhat'
-supports 'centos'
-supports 'ubuntu'
-supports 'debian'
+version '5.0.0'
 
 depends 'poise', '~> 2.8.1'
 depends 'systemd', '~> 3.2.3'
+
+source_url 'https://github.com/vinted/chef-proxysql'
+issues_url 'https://github.com/vinted/chef-proxysql/issues'
+
+supports centos
+supports redhat
+supports rocky

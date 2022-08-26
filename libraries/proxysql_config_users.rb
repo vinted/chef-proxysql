@@ -13,9 +13,8 @@ module ProxysqlConfig
     # frontend INT CHECK (frontend IN (0,1)) NOT NULL DEFAULT 1,
     # max_connections INT CHECK (max_connections >=0) NOT NULL DEFAULT 10000,
     def config(username:, password:, default_hostgroup: 0, config: {})
-      unless default_hostgroup.is_a?(Integer)
-        raise 'Provide Integer for default_hostgroup'
-      end
+      raise 'Provide Integer for default_hostgroup' unless default_hostgroup.is_a?(Integer)
+
       {
         username: username,
         password: password,

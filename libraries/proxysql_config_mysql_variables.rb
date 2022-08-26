@@ -31,6 +31,7 @@ module ProxysqlConfig
     )
       raise 'Provide String for monitor_username' unless monitor_username.is_a?(String)
       raise 'Provide String for monitor_password' unless monitor_password.is_a?(String)
+
       {
         monitor_username: monitor_username,
         monitor_password: monitor_password,

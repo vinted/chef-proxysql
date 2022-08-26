@@ -1,13 +1,9 @@
-case node['platform']
-when 'rhel', 'centos'
-  include_recipe 'yum-mysql-community::mysql56'
-when 'debian', 'ubuntu'
-  package %w[curl software-properties-common]
+execute 'dnf module disable mysql -y' if node['platform_version'].to_i >= 8
 
-  execute 'download mysql-apt-config' do
-    command %(add-apt-repository 'deb http://archive.ubuntu.com/ubuntu trusty universe')
-    action :run
-  end
-
-  apt_update 'update'
+yum_repository 'mysql57-community' do
+  description 'MySQL 5.7 Community Server'
+  baseurl 'http://repo.mysql.com/yum/mysql-5.7-community/el/7/$basearch/'
+  enabled true
+  gpgcheck true
+  gpgkey 'https://repo.mysql.com/RPM-GPG-KEY-mysql-2022'
 end

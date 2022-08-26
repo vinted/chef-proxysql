@@ -8,11 +8,12 @@ driver:
 
 provisioner:
   name: chef_zero
+  product_name: cinc
+  product_version: 17
   nodes_path: 'test/integration/nodes'
   data_bags_path: 'test/integration/data_bags'
   environments_path: 'test/integration/environments'
   roles_path: 'test/integration/roles'
-  require_chef_omnibus: 12
 
 verifier:
   name: inspec
@@ -21,14 +22,14 @@ platforms:
   - name: centos-7
     driver_plugin: docker
     driver:
-      image: ernestasposkus/centos7
+      image: centos:7
       run_command: '/usr/lib/systemd/systemd'
       run_options: '--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'
-  - name: ubuntu-1604
+  - name: rockylinux-8
     driver_plugin: docker
     driver:
-      image: ernestasposkus/ubuntu1604
-      run_command: '/lib/systemd/systemd'
+      image: rockylinux:8
+      run_command: '/usr/lib/systemd/systemd'
       run_options: '--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'
 
 suites:

@@ -2,14 +2,12 @@ source 'https://rubygems.org'
 
 group :lint do
   gem 'cookstyle'
-  gem 'foodcritic', '~> 6.0'
 end
 
 group :unit do
-  gem 'berkshelf', '~> 5.0'
-  gem 'chef-sugar'
+  gem 'berkshelf'
   gem 'chefspec', '>= 4.2'
-  gem 'molinillo', '>= 0.5', '< 0.6.0'
+  gem 'chef-sugar'
 end
 
 group :kitchen_common do

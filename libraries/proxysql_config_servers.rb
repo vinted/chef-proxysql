@@ -9,6 +9,7 @@ module ProxysqlConfig
     # "max_replication_lag": 10
     def config(address:, port: 3306, hostgroup: 0, config: {})
       raise 'Provide Integer for hostgroup' unless hostgroup.is_a?(Integer)
+
       {
         address: address,
         hostgroup: hostgroup,
