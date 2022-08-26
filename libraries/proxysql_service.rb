@@ -140,13 +140,12 @@ class Chef
       end
 
       # rubocop:disable Metrics/AbcSize
-      # rubocop:disable Metrics/PerceivedComplexity
       # rubocop:disable Style/GuardClause
       def validate!
         super
         if admin_mysql_ifaces
           # Check for .sock or IP:PORT
-          unless admin_mysql_ifaces =~ /\.sock|\:\d+/
+          unless admin_mysql_ifaces =~ /\.sock|:\d+/
             raise "Provide admin_variables['mysql_ifaces'] in a form of "\
               "'127.0.0.1:6032' or '/var/lib/mysql/mysql.sock'"
           end
@@ -168,6 +167,8 @@ class Chef
             'config to RUNTIME'
         end
       end
+      # rubocop:enable Style/GuardClause
+      # rubocop:enable Metrics/AbcSize
 
       def admin_variables
         new_resource.admin_variables
@@ -197,21 +198,23 @@ class Chef
         %(mysql --user="#{user}" --password="#{pass}" #{connection})
       end
 
+      # rubocop:disable Metrics/AbcSize
       def config_variables
         {
           data_dir: service_data_dir,
           admin_variables: admin_variables,
           mysql_variables: new_resource.mysql_variables,
-
-          schedulers:                   make_config(new_resource.schedulers),
-          mysql_users:                  make_config(new_resource.mysql_users),
-          mysql_servers:                make_config(new_resource.mysql_servers),
-          mysql_query_rules:            make_config(new_resource.mysql_query_rules),
+          schedulers: make_config(new_resource.schedulers),
+          mysql_users: make_config(new_resource.mysql_users),
+          mysql_servers: make_config(new_resource.mysql_servers),
+          mysql_query_rules: make_config(new_resource.mysql_query_rules),
           mysql_replication_hostgroups: make_config(new_resource.mysql_replication_hostgroups),
-          proxysql_servers:             make_config(new_resource.proxysql_servers)
+          proxysql_servers: make_config(new_resource.proxysql_servers)
         }
       end
+      # rubocop:enable Metrics/AbcSize
 
+      # rubocop:disable Metrics/AbcSize
       def install_config
         pre_st = new_resource.pre_statements.map { |st| "#{st};" }
         post_st = new_resource.post_statements.map { |st| "#{st};" }
@@ -236,6 +239,7 @@ class Chef
           cookbook 'proxysql'
         end
       end
+      # rubocop:enable Metrics/AbcSize
 
       def service_args
         flags = new_resource.flags
@@ -252,6 +256,7 @@ class Chef
         config.flatten.join(' ')
       end
 
+      # rubocop:disable Metrics/AbcSize
       def install_service
         exec_start = "#{new_resource.bin} #{service_args}"
         systemd_service new_resource.service_name do
@@ -276,6 +281,7 @@ class Chef
           end
         end
       end
+      # rubocop:enable Metrics/AbcSize
 
       def make_config(obj)
         hash_type = [Hash, Chef::Node::ImmutableMash]
@@ -283,13 +289,14 @@ class Chef
           raise "Provided #{obj} must be Chef::Node::ImmutableMash"\
             'or Array'
         end
-        values = obj.values
+        values = obj.to_h.values
         return [] if values.empty?
 
         array_type = [Array, Chef::Node::ImmutableArray]
         # Validating that each provided value is Array
         obj.each do |k, val|
           next if array_type.include?(val.class)
+
           raise "Provided key #{k} value #{val.class} must be of type"\
             'Chef::Node::ImmutableArray or Array'
         end
@@ -303,6 +310,7 @@ class Chef
       def install_proxysql
         v = package_version
         package 'proxysql' do
+          flush_cache [:before]
           version v if new_resource.lock_version
         end
 
@@ -324,5 +332,6 @@ class Chef
         end
       end
     end
+    # rubocop:enable Metrics/ClassLength
   end
 end

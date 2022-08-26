@@ -33,6 +33,8 @@ module ProxysqlHelpers
     end
     output.string
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/AbcSize
 
   def for_instance(instance, config)
     {

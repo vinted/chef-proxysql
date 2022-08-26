@@ -9,7 +9,7 @@ mysql_service 'first' do
   bind_address '0.0.0.0'
   port first_port
   initial_root_password pass
-  version '5.6'
+  version '5.7'
   action %i[create start]
 end
 
@@ -17,7 +17,7 @@ mysql_service 'second' do
   bind_address '0.0.0.0'
   port second_port
   initial_root_password pass
-  version '5.6'
+  version '5.7'
   action %i[create start]
 end
 
@@ -27,12 +27,14 @@ execute 'create_user_for_first' do
   # rubocop:disable Metrics/LineLength
   command %(echo "GRANT ALL PRIVILEGES ON *.* TO 'monitor'@'%' IDENTIFIED BY 'monitor';" | mysql -u root -p#{pass} -h 127.0.0.1 -P #{first_port})
   action :run
+  # rubocop:enable Metrics/LineLength
 end
 
 execute 'create_user_for_second' do
   # rubocop:disable Metrics/LineLength
   command %(echo "GRANT ALL PRIVILEGES ON *.* TO 'monitor'@'%' IDENTIFIED BY 'monitor';" | mysql -u root -p#{pass} -h 127.0.0.1 -P #{second_port})
   action :run
+  # rubocop:enable Metrics/LineLength
 end
 
 servers = {

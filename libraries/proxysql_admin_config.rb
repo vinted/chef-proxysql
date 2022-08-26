@@ -81,6 +81,7 @@ class Chef
           read_write_mode: new_resource.read_write_mode
         }
       end
+      # rubocop:enable Metrics/AbcSize
 
       def install_admin_config
         variables = admin_variables

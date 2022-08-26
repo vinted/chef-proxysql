@@ -16,6 +16,7 @@ module ProxysqlConfig
     def validate(match_pattern:)
       raise 'Provide String for match_pattern' unless match_pattern.is_a?(String)
       return unless (match_pattern =~ /^\^/).nil?
+
       raise 'match_pattern: must begin ^..'
     end
     module_function :validate
