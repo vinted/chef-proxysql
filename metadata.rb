@@ -13,6 +13,6 @@ depends 'systemd', '~> 3.2.3'
 source_url 'https://github.com/vinted/chef-proxysql'
 issues_url 'https://github.com/vinted/chef-proxysql/issues'
 
-supports centos
-supports redhat
-supports rocky
+supports 'centos'
+supports 'redhat'
+supports 'rocky'
