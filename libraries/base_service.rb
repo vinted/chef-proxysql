@@ -43,7 +43,7 @@ class Chef
             create_user
             dirs = [
               new_resource.config_dir,
-              new_resource.data_dir
+              new_resource.data_dir,
             ]
             create_directories(dirs)
             install_proxysql_repository
@@ -64,7 +64,7 @@ class Chef
 
       def platform_supported?
         platform = node['platform']
-        return if %w[centos redhat rocky].include?(platform)
+        return if %w(centos redhat rocky).include?(platform)
 
         raise "Platform #{platform} is not supported"
       end
@@ -99,8 +99,10 @@ class Chef
 
         package 'findutils' if node['platform_version'].to_i >= 8
 
-        execute "rpm -Uhv #{repo['url']}" do
-          creates "/etc/yum.repos.d/#{repo['name']}"
+        yum_repository repo['name'] do
+          baseurl repo['url']
+          gpgkey repo['gpgkey']
+          action :create
         end
       end
     end
