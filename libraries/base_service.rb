@@ -99,6 +99,9 @@ class Chef
 
         package 'findutils' if node['platform_version'].to_i >= 8
 
+        execute 'import percona repo packaging key' do
+          command 'rpm --import /etc/pki/rpm-gpg/PERCONA-PACKAGING-KEY'
+        end
         execute "rpm -Uhv #{repo['url']}" do
           creates "/etc/yum.repos.d/#{repo['name']}"
         end
