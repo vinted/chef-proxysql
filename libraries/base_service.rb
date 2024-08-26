@@ -99,10 +99,9 @@ class Chef
 
         package 'findutils' if node['platform_version'].to_i >= 8
 
-        yum_repository repo['name'] do
-          baseurl repo['url']
-          gpgkey repo['gpgkey']
-          action :create
+        execute "rpm -Uhv #{repo['url']}" do
+          creates "/etc/yum.repos.d/#{repo['name']}"
+          not_if "rpm -q percona-release"
         end
       end
     end
