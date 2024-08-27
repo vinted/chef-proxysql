@@ -5,7 +5,7 @@ license 'MIT'
 description 'Installs/Configures ProxySQL'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 chef_version '>= 12.1' if respond_to?(:chef_version)
-version '5.0.1'
+version '5.0.2'
 
 depends 'poise', '~> 2.8.1'
 depends 'systemd', '~> 3.2.3'
